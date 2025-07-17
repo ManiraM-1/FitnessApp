@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker - Dark Theme Demo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1E1B4B 50%, #312E81 100%);
+            min-height: 100vh;
+            color: #F8FAFC;
+            background-attachment: fixed;
+        }
+        
+        .glass-container {
+            background: rgba(30, 27, 75, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 48px rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+        }
+        
+        .glass-card {
+            background: rgba(30, 27, 75, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+            color: white;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+            background: linear-gradient(135deg, #8B5CF6 0%, #60A5FA 100%);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .activity-card {
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 64px rgba(124, 58, 237, 0.3);
+        }
+        
+        .activity-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        
+        .activity-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .activity-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7C3AED;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #CBD5E1;
+        }
+        
+        .form-container {
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #CBD5E1;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            background: rgba(30, 27, 75, 0.4);
+            backdrop-filter: blur(10px);
+            color: #F8FAFC;
+            font-family: inherit;
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border: 1px solid rgba(124, 58, 237, 0.6);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+        }
+        
+        .welcome-section {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 500px;
+            margin: 10% auto;
+        }
+        
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #CBD5E1;
+            line-height: 1.6;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(124, 58, 237, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+            }
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .hide { display: none; }
+        .show { display: block; }
+    </style>
+</head>
+<body>
+    <div id="loginPage" class="welcome-section glass-container fade-in">
+        <h1 class="welcome-title gradient-text">Welcome to Fitness Tracker</h1>
+        <p class="welcome-subtitle">Track your fitness journey with AI-powered insights and personalized recommendations</p>
+        <button class="btn btn-primary pulse-animation" onclick="showApp()">Start Your Journey</button>
+    </div>
+    
+    <div id="mainApp" class="hide">
+        <div class="glass-container" style="margin: 20px; padding: 20px;">
+            <div class="header">
+                <h2 class="gradient-text">Fitness Tracker</h2>
+                <button class="btn btn-primary" onclick="showLogin()">Logout</button>
+            </div>
+        </div>
+        
+        <div class="container">
+            <h1 class="section-title gradient-text">Your Fitness Journey</h1>
+            
+            <div class="glass-container form-container">
+                <h3 style="margin-bottom: 20px; text-align: center;">Add New Activity</h3>
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">Activity Type</label>
+                        <select class="form-select">
+                            <option>🏃‍♂️ Running</option>
+                            <option>🚶‍♂️ Walking</option>
+                            <option>🚴‍♂️ Cycling</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Duration (Minutes)</label>
+                        <input type="number" class="form-input" placeholder="30" min="1" max="1440">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Calories Burned</label>
+                        <input type="number" class="form-input" placeholder="250" min="0" max="10000">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        💪 Add Activity
+                    </button>
+                </form>
+            </div>
+            
+            <div class="glass-container" style="padding: 24px;">
+                <h3 style="margin-bottom: 20px;">Recent Activities</h3>
+                
+                <div class="activity-grid">
+                    <div class="activity-card glass-card">
+                        <div class="activity-icon">🏃‍♂️</div>
+                        <h4 class="activity-title">Running</h4>
+                        <div class="activity-stats">
+                            <div class="stat">
+                                <div class="stat-value">45</div>
+                                <div class="stat-label">Minutes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">380</div>
+                                <div class="stat-label">Calories</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-card glass-card">
+                        <div class="activity-icon">🚶‍♂️</div>
+                        <h4 class="activity-title">Walking</h4>
+                        <div class="activity-stats">
+                            <div class="stat">
+                                <div class="stat-value">30</div>
+                                <div class="stat-label">Minutes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">120</div>
+                                <div class="stat-label">Calories</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-card glass-card">
+                        <div class="activity-icon">🚴‍♂️</div>
+                        <h4 class="activity-title">Cycling</h4>
+                        <div class="activity-stats">
+                            <div class="stat">
+                                <div class="stat-value">60</div>
+                                <div class="stat-label">Minutes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">480</div>
+                                <div class="stat-label">Calories</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showApp() {
+            document.getElementById('loginPage').classList.add('hide');
+            document.getElementById('mainApp').classList.remove('hide');
+            document.getElementById('mainApp').classList.add('fade-in');
+        }
+        
+        function showLogin() {
+            document.getElementById('mainApp').classList.add('hide');
+            document.getElementById('loginPage').classList.remove('hide');
+            document.getElementById('loginPage').classList.add('fade-in');
+        }
+    </script>
+</body>
+</html>
